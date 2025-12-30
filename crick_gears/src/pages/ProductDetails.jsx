@@ -7,26 +7,41 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    api.get(`/products/${id}`).then(res => setProduct(res.data));
+    api.get(`/products/${id}`)
+      .then(res => setProduct(res.data))
+      .catch(err => console.log(err));
   }, [id]);
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) return <p className="p-6">Loading...</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">{product.name}</h1>
-      <p>{product.description}</p>
+    <div className="max-w-4xl mx-auto p-8 bg-white mt-8 shadow rounded">
+      <img
+        src={product.images[0]}
+        alt={product.name}
+        className="h-64 w-full object-cover mb-6"
+      />
 
-      <div className="mt-4 space-x-4">
+      <h1 className="text-3xl font-bold">{product.name}</h1>
+      <p className="my-4 text-gray-700">{product.description}</p>
+      <p className="text-xl font-semibold">{product.priceRange}</p>
+
+      <div className="mt-6 flex gap-4">
         {product.affiliateLinks.amazon && (
-          <a href={product.affiliateLinks.amazon} target="_blank"
-             className="bg-yellow-400 px-4 py-2">
+          <a
+            href={product.affiliateLinks.amazon}
+            target="_blank"
+            className="bg-yellow-500 px-4 py-2 rounded text-white"
+          >
             Buy on Amazon
           </a>
         )}
         {product.affiliateLinks.flipkart && (
-          <a href={product.affiliateLinks.flipkart} target="_blank"
-             className="bg-blue-500 text-white px-4 py-2">
+          <a
+            href={product.affiliateLinks.flipkart}
+            target="_blank"
+            className="bg-blue-600 px-4 py-2 rounded text-white"
+          >
             Buy on Flipkart
           </a>
         )}
